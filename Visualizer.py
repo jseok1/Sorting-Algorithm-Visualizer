@@ -1,28 +1,25 @@
 # === Sorting Algorithms Visualizer ===
 import time
-
 import pygame
 import random
+
 import SortingAlgorithms
 
 # screen dimensions
 WIDTH = 1024
 HEIGHT = 576
 
-# x-axis dimensions
-X_WIDTH = 924
-X_HEIGHT = 4
-
 # problem size
-SIZE = 250
+SIZE = 20  # recommended: 200
 
 # delay
-DELAY = 1
+DELAY = 250  # recommended: 5
 
 # RGB colour values
 WHITE = (255, 255, 255)
 BLUE = (130, 215, 255)
 RED = (255, 145, 145)
+ORANGE = (255, 210, 160)
 GREY = (240, 240, 240)
 
 
@@ -61,57 +58,60 @@ def event_loop(screen):
 
 
 def reset(screen, lst):
-    """Draw a random unsorted list onto the visualizer and return it."""
+    """Draw a random unsorted list onto the visualizer."""
     lst.clear()
-    lst.extend(random.sample(range(1, SIZE + 1), SIZE))   # problem size of 50
-    update_visualizer(screen, lst, {})
+    lst.extend([0] * SIZE)
+    temp = random.sample(range(1, SIZE + 1), SIZE)
+    for i in range(len(temp)):
+        lst[i] = temp[i]
+        update_visualizer(screen, lst, {}, {})
+        pygame.event.pump()
+        pygame.time.wait(1)
 
 
 def run_algorithm(screen, states):
     """Run the sorting algorithm and update the visualizer."""
     start = time.time()
     for state in states:
-        update_visualizer(screen, state[0], state[1])
+        update_visualizer(screen, state[0], state[1], state[2])
         pygame.event.pump()
-        pygame.time.wait(DELAY)  # wait 15 ms
+        pygame.time.wait(DELAY)
     end = time.time()
     print(end - start)
 
 
-def update_visualizer(screen, lst, pivots):
-    """Update the visualizer."""
+def update_visualizer(screen, lst, primary, secondary):
+    """Update the visualizer with a new frame."""
     screen.fill(WHITE)  # clear screen
-    draw_grid(screen)
-    draw_rectangles(screen, lst, pivots)
+    draw_lines(screen)
+    draw_rectangles(screen, lst, primary, secondary)
     pygame.display.flip()  # update screen
 
 
-def draw_rectangles(screen, lst, pivots):
+def draw_rectangles(screen, lst, primary, secondary):
     """Draw rectangles on the visualizer."""
-    gap = X_WIDTH / (5 * len(lst) + 1)
+    gap = (WIDTH - 100) / (5 * SIZE + 1)
     width = 4 * gap  # 4:1 ratio between rectangles and gap
     x = 50 + gap
-
     for i in range(len(lst)):
-        height = 454 * (lst[i] / (SIZE + 1))
-        y = HEIGHT - 62 - height
-        if i in pivots:  # red rectangles
-            pygame.draw.rect(screen, RED, pygame.Rect(x, y, width, height))
-        else:  # blue rectangles
-            pygame.draw.rect(screen, BLUE, pygame.Rect(x, y, width, height))
+        height = (HEIGHT - 100) * (lst[i] / SIZE)
+        y = HEIGHT - 52 - height
+        if height != 0:
+            rect = pygame.Rect(x, y, width, height)
+            if i in primary:  # red rectangles
+                pygame.draw.rect(screen, RED, rect)
+            elif i in secondary:  # orange rectangles
+                pygame.draw.rect(screen, ORANGE, rect)
+            else:  # blue rectangles
+                pygame.draw.rect(screen, BLUE, rect)
         x += width + gap
 
 
-def draw_grid(screen):
-    """Draw horizontal grid lines on the visualizer."""
-    x = (WIDTH - X_WIDTH) / 2  # centers horizontally on screen
-    y = HEIGHT - 60
-
-    pygame.draw.rect(screen, GREY, pygame.Rect(x, y, X_WIDTH, X_HEIGHT))
-    for i in range(5):  # draws 5 horizontal grid lines
-        y -= 80
-        pygame.draw.rect(screen, GREY, pygame.Rect(x, y, X_WIDTH, X_HEIGHT / 2))
-
-
-if __name__ == '__main__':
-    run_visualizer()
+def draw_lines(screen):
+    """Draw reference lines on the visualizer."""
+    x = 50
+    y = HEIGHT - 50
+    pygame.draw.rect(screen, GREY, pygame.Rect(x, y, WIDTH - 100, 4))
+    for i in range(5):
+        y -= HEIGHT * 0.15
+        pygame.draw.rect(screen, GREY, pygame.Rect(x, y, WIDTH - 100, 2))
