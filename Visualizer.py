@@ -10,10 +10,10 @@ WIDTH = 1024
 HEIGHT = 576
 
 # problem size
-SIZE = 20  # recommended: 200
+SIZE = 200  # recommended: 200
 
 # delay
-DELAY = 250  # recommended: 5
+DELAY = 5  # recommended: 5
 
 # RGB colour values
 WHITE = (255, 255, 255)
