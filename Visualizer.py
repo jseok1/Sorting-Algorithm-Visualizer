@@ -1,5 +1,4 @@
 # === Sorting Algorithms Visualizer ===
-import time
 import pygame
 import random
 
@@ -10,16 +9,16 @@ WIDTH = 1024
 HEIGHT = 576
 
 # problem size
-SIZE = 200  # recommended: 200
+SIZE = 75
 
 # delay
-DELAY = 5  # recommended: 5
+DELAY = 10
 
 # RGB colour values
 WHITE = (255, 255, 255)
-BLUE = (130, 215, 255)
-RED = (255, 145, 145)
-ORANGE = (255, 210, 160)
+BLUE = (120, 225, 255)
+PURPLE = (125, 170, 255)
+RED = (255, 130, 135)
 GREY = (240, 240, 240)
 
 
@@ -44,17 +43,18 @@ def event_loop(screen):
                 if event.key == pygame.K_r:
                     reset(screen, lst)
                 elif event.key == pygame.K_1:
-                    run_algorithm(screen, SortingAlgorithms.bubble_sort(lst))
+                    SortingAlgorithms.bubble_sort(screen, lst)
                 elif event.key == pygame.K_2:
-                    run_algorithm(screen, SortingAlgorithms.selection_sort(lst))
+                    SortingAlgorithms.selection_sort(screen, lst)
                 elif event.key == pygame.K_3:
-                    run_algorithm(screen, SortingAlgorithms.insertion_sort(lst))
+                    SortingAlgorithms.insertion_sort(screen, lst)
                 elif event.key == pygame.K_4:
-                    run_algorithm(screen, SortingAlgorithms.merge_sort(lst))
+                    SortingAlgorithms.merge_sort(screen, lst)
                 elif event.key == pygame.K_5:
-                    run_algorithm(screen, SortingAlgorithms.quick_sort(lst))
+                    SortingAlgorithms.quick_sort(screen, lst)
                 elif event.key == pygame.K_6:
-                    run_algorithm(screen, SortingAlgorithms.heap_sort(lst))
+                    SortingAlgorithms.heap_sort(screen, lst)
+    pygame.quit()
 
 
 def reset(screen, lst):
@@ -62,48 +62,38 @@ def reset(screen, lst):
     lst.clear()
     lst.extend([0] * SIZE)
     temp = random.sample(range(1, SIZE + 1), SIZE)
-    for i in range(len(temp)):
+    for i in range(SIZE):
         lst[i] = temp[i]
-        update_visualizer(screen, lst, {}, {})
-        pygame.event.pump()
-        pygame.time.wait(1)
+        update(screen, lst, {})
 
 
-def run_algorithm(screen, states):
-    """Run the sorting algorithm and update the visualizer."""
-    start = time.time()
-    for state in states:
-        update_visualizer(screen, state[0], state[1], state[2])
-        pygame.event.pump()
-        pygame.time.wait(DELAY)
-    end = time.time()
-    print(end - start)
-
-
-def update_visualizer(screen, lst, primary, secondary):
+def update(screen, lst, accent):
     """Update the visualizer with a new frame."""
     screen.fill(WHITE)  # clear screen
     draw_lines(screen)
-    draw_rectangles(screen, lst, primary, secondary)
+    draw_rectangles(screen, lst, accent)
     pygame.display.flip()  # update screen
+    pygame.event.pump()
+    pygame.time.wait(DELAY)
 
 
-def draw_rectangles(screen, lst, primary, secondary):
+def draw_rectangles(screen, lst, accent):
     """Draw rectangles on the visualizer."""
-    gap = (WIDTH - 100) / (5 * SIZE + 1)
-    width = 4 * gap  # 4:1 ratio between rectangles and gap
+    gap = (WIDTH - 100) / (11 * SIZE + 1)
+    width = 10 * gap  # 10:1 ratio between rectangles and gap
     x = 50 + gap
     for i in range(len(lst)):
         height = (HEIGHT - 100) * (lst[i] / SIZE)
         y = HEIGHT - 52 - height
         if height != 0:
             rect = pygame.Rect(x, y, width, height)
-            if i in primary:  # red rectangles
+            if i in accent:  # red rectangles
                 pygame.draw.rect(screen, RED, rect)
-            elif i in secondary:  # orange rectangles
-                pygame.draw.rect(screen, ORANGE, rect)
             else:  # blue rectangles
-                pygame.draw.rect(screen, BLUE, rect)
+                red = BLUE[0] + (PURPLE[0] - BLUE[0]) * (lst[i] / SIZE)
+                green = BLUE[1] + (PURPLE[1] - BLUE[1]) * (lst[i] / SIZE)
+                blue = BLUE[2] + (PURPLE[2] - BLUE[2]) * (lst[i] / SIZE)
+                pygame.draw.rect(screen, (red, green, blue), rect)
         x += width + gap
 
 
