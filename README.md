@@ -1,7 +1,8 @@
 # Sorting Algorithm Visualizer
-A visualization tool for common sorting algorithms. 
+A visualizer for common sorting algorithms using a histogram-style layout.
 
-![](images/visualization.PNG)
+
+![](images/sorting.PNG)
 
 ## Current Algorithms
 * Bubble Sort
