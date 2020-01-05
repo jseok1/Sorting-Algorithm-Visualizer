@@ -32,8 +32,8 @@ def run_visualizer():
 
 def event_loop(screen):
     """Respond to user events and update the visualizer."""
-    lst = [0] * SIZE
-    reset_screen(screen, lst)
+    lst = []
+    reset(screen, lst)
     is_running = True
     while is_running:
         for event in pygame.event.get():
@@ -41,7 +41,7 @@ def event_loop(screen):
                 is_running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
-                    reset_screen(screen, lst)
+                    reset(screen, lst)
                 elif event.key == pygame.K_1:
                     SortingAlgorithms.bubble_sort(screen, lst)
                 elif event.key == pygame.K_2:
@@ -57,17 +57,17 @@ def event_loop(screen):
     pygame.quit()
 
 
-def reset_screen(screen, lst):
+def reset(screen, lst):
     """Draw a random unsorted list onto the visualizer."""
-    for i in range(SIZE):
-        lst[i] = 0
+    lst.clear()
+    lst.extend([0] * SIZE)
     for i, value in enumerate(random.sample(range(1, SIZE + 1), SIZE)):
         lst[i] = value
-        update_screen(screen, lst[:], {i})
-    update_screen(screen, lst[:], {})
+        update(screen, lst.copy(), {i})
+    update(screen, lst.copy(), {})
 
 
-def update_screen(screen, lst, accent):
+def update(screen, lst, accent):
     """Update the visualizer with a new frame."""
     screen.fill(WHITE)  # clear screen
     draw_lines(screen)
