@@ -5,8 +5,7 @@ import random
 import SortingAlgorithms
 
 # screen dimensions
-WIDTH = 1024
-HEIGHT = 576
+DIMENSIONS = (1024, 576)
 
 # problem size
 SIZE = 75
@@ -26,7 +25,7 @@ def run_visualizer():
     """Initialize and run this visualizer."""
     pygame.init()
     pygame.display.set_caption('Sorting Algorithm Visualizer')
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode(DIMENSIONS)
     event_loop(screen)
 
 
@@ -79,12 +78,12 @@ def update(screen, lst, accent):
 
 def draw_rectangles(screen, lst, accent):
     """Draw rectangles on the visualizer."""
-    gap = (WIDTH - 100) / (11 * SIZE + 1)
+    gap = (DIMENSIONS[0] - 100) / (11 * SIZE + 1)
     width = 10 * gap  # 10:1 ratio between rectangles and gap
     x = 50 + gap
     for i in range(len(lst)):
-        height = (HEIGHT - 100) * (lst[i] / SIZE)
-        y = HEIGHT - 52 - height
+        height = (DIMENSIONS[1] - 100) * (lst[i] / SIZE)
+        y = DIMENSIONS[1] - 52 - height
         if height != 0:
             rect = pygame.Rect(x, y, width, height)
             if i in accent:  # red rectangles
@@ -99,9 +98,10 @@ def draw_rectangles(screen, lst, accent):
 
 def draw_lines(screen):
     """Draw reference lines on the visualizer."""
+    width = DIMENSIONS[0] - 100
     x = 50
-    y = HEIGHT - 50
-    pygame.draw.rect(screen, GREY, pygame.Rect(x, y, WIDTH - 100, 4))
+    y = DIMENSIONS[1] - 50
+    pygame.draw.rect(screen, GREY, pygame.Rect(x, y, width, 4))
     for i in range(5):
-        y -= HEIGHT * 0.15
-        pygame.draw.rect(screen, GREY, pygame.Rect(x, y, WIDTH - 100, 2))
+        y -= DIMENSIONS[1] * 0.15
+        pygame.draw.rect(screen, GREY, pygame.Rect(x, y, width, 2))
