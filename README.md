@@ -2,7 +2,7 @@
 ![](images/sorting.PNG)
 
 ## Introduction
-This is a visualization tool for common sorting algorithms! It intuitively visualizes how sorting algorithms work by displaying the basic operations of a chosen algorithm as it runs on a randomized array. 
+This is an interactive visualization tool for common sorting algorithms! It intuitively visualizes how sorting algorithms work by displaying the basic operations of a chosen algorithm as it runs on a randomized array. 
 
 ## Current Algorithms
 The following sorting algorithms have been implemented.
