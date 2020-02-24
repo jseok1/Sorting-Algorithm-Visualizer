@@ -1,4 +1,3 @@
-# === Sorting Algorithms Visualizer ===
 import pygame
 import random
 

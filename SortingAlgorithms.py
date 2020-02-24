@@ -1,4 +1,3 @@
-# === Sorting Algorithms ===
 import Visualizer
 
 
@@ -121,7 +120,7 @@ def _partition(screen, lst, low, high):
 
 def heap_sort(screen, lst):
     """Heap sort implementation in Python."""
-    for i in range(len(lst), -1, -1):
+    for i in range(len(lst) // 2 - 1, -1, -1):
         _heapify(screen, lst, len(lst), i)
     for i in range(len(lst) - 1, 0, -1):
         lst[i], lst[0] = lst[0], lst[i]
