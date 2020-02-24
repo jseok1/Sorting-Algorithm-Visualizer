@@ -19,7 +19,7 @@ The following sorting algorithms have been implemented.
 As an interesting aside, this visualizer provides decent approximations on how the sorting algorithms would perform relative to each other, so the visualizations of each sorting algorithm should roughly reflect the running time complexities above too.
 
 ## Installation
-1. Clone this repository to your local machine using `https://github.com/jseok1/Sorting-Algorithm-Visualizer`.
+1. Clone this repository to your local machine using `https://github.com/jseok1/Sorting-Algorithm-Visualizer.git`.
 2. Use the package manager `pip` to install `pygame`.
 ```bash
 $ pip install pygame
